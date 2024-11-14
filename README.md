@@ -1,38 +1,45 @@
-Role Name
-=========
+# Docker Role
 
-A brief description of the role goes here.
+This Ansible role installs Docker on a target machine and configures it for use with containers. It is designed to be used in environments where Docker needs to be installed and configured via Ansible.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Ansible 2.x or higher
+- Target machine running Ubuntu (or Debian-based distributions)
+- Root privileges for installing system packages (via `become: true`)
 
-Role Variables
---------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+This section describes the variables that can be set for the role.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- `docker_gpg_key_url`: URL of the Docker GPG key. Default: `https://download.docker.com/linux/ubuntu/gpg`
+- `docker_repository_url`: Docker repository URL. Default: `https://download.docker.com/linux/ubuntu`
+- `docker_repo_distribution`: The Ubuntu distribution to use for the Docker repository (e.g., `focal` for Ubuntu 20.04). Default: `focal`
+- `docker_package_state`: The state of the Docker package (can be `stable` or another state). Default: `stable`
+- `docker_package`: The name of the Docker package. Default: `docker-ce`
+- `docker_group_user`: The user who will be added to the Docker group. Default: the user running the Ansible playbook (`{{ ansible_user }}`)
 
-Example Playbook
+### Default Variables (in `defaults/main.yml`)
+```yaml
+docker_gpg_key_url: "https://download.docker.com/linux/ubuntu/gpg"
+docker_repository_url: "https://download.docker.com/linux/ubuntu"
+docker_repo_distribution: "focal"
+docker_package_state: "stable"
+docker_package: "docker-ce"
+docker_group_user: "{{ ansible_user }}"
+
+
+### Dependencies
+This role does not have any external dependencies or prerequisites that are not covered by Ansible itself.
+
+### Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+---
+- name: Install Docker on application nodes
+  hosts: app
+  become: true
+  roles:
+    - Docker
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
