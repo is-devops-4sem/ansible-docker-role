@@ -28,6 +28,7 @@ docker_repo_distribution: "focal"
 docker_package_state: "stable"
 docker_package: "docker-ce"
 docker_group_user: "{{ ansible_user }}"
+```
 
 
 ### Dependencies
@@ -36,10 +37,12 @@ This role does not have any external dependencies or prerequisites that are not 
 ### Example Playbook
 ----------------
 
+```yaml
 ---
 - name: Install Docker on application nodes
   hosts: app
   become: true
   roles:
     - Docker
+```
 
