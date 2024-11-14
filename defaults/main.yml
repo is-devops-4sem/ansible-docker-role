@@ -1,0 +1,8 @@
+---
+docker_gpg_key_url: "https://download.docker.com/linux/ubuntu/gpg"
+docker_repository_url: "https://download.docker.com/linux/ubuntu"
+docker_repo_distribution: "focal"
+docker_package_state: "stable"
+docker_package: "docker-ce"
+docker_group_user: "{{ ansible_user }}"
+
