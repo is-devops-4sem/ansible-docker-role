@@ -1,5 +1,0 @@
----
-roles:
-  - name: Docker
-    src: git+https://github.com/is-devops-4sem/ansible-docker-role.git
-    version: master
