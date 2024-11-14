@@ -1,25 +1,22 @@
 ---
+- name: Add Docker GPG key
+  apt_key:
+    url: "{{ docker_gpg_key_url }}"
+    state: present
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "deb {{ docker_repository_url }} {{ docker_repo_distribution }} {{ docker_package_state }}"
+    state: present
+
 - name: Install Docker
-  become: true
-  tasks:
-    - name: Add Docker GPG key
-      apt_key:
-        url: "{{ docker_gpg_key_url }}"
-        state: present
+  apt:
+    name: "{{ docker_package }}"
+    state: latest
+    update_cache: true
 
-    - name: Add Docker repository
-      apt_repository:
-        repo: "deb {{ docker_repository_url }} {{ docker_repo_distribution }} {{ docker_package_state }}"
-        state: present
-
-    - name: Install Docker
-      apt:
-        name: "{{ docker_package }}"
-        state: latest
-        update_cache: true
-
-    - name: Add current user to the docker group
-      user:
-        name: "{{ docker_group_user }}"
-        groups: docker
-        append: yes
+- name: Add current user to the docker group
+  user:
+    name: "{{ docker_group_user }}"
+    groups: docker
+    append: yes
